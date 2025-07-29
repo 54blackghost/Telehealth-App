@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import HomeIndex from "./pages/Home/HomeIndex";
+import Hero from "./pages/Home/Hero";
+
+//Authentication Section
+
+import NewUser from "./pages/Auth/Join/NewUser";
+import Login from "./pages/Auth/logins/Login";
+import ForgotPass from "./pages/Auth/logins/ForgotPass";
+import VerifyAcct from "./pages/Auth/logins/VerifyAcct";
+
+// Dashboard
+import Dashboard from "./pages/dashboards/Dashboard";
+import VideoStream from "./components/VideoStream";
+import { StreamProvider } from "./components/StreamContext";
+
+const StreamLayout = () => (
+  <StreamProvider>
+    <Outlet />
+  </StreamProvider>
+);
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomeIndex />,
+    children: [{ index: true, element: <Hero /> }],
+  },
+
+  { path: "signup", element: <NewUser /> },
+  { path: "login", element: <Login /> },
+  { path: "forgotPass", element: <ForgotPass /> },
+  { path: "verifyAcct", element: <VerifyAcct /> },
+
+  {
+    element: <StreamLayout />,
+    children: [
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "videoCall", element: <VideoStream /> },
+    ],
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className=" w-full min-w-[100vw] min-h-[100vh]">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
-export default App
+export default App;
