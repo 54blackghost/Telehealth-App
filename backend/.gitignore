@@ -1,0 +1,14 @@
+# 🚫 Ne jamais commit .env ou credentials
+.env
+.env.local
+credentials.json
+
+# 🛠 Fichiers générés
+node_modules
+dist
+.vscode
+.DS_Store
+*.log
+*.tmp
+npm-debug.log*
+yarn-debug.log*
